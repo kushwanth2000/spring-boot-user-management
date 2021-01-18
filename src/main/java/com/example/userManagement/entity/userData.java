@@ -1,9 +1,7 @@
 package com.example.userManagement.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.naming.Name;
+import javax.persistence.*;
 
 @Entity
 @Table(name= "userdata")
@@ -11,13 +9,21 @@ import javax.persistence.Table;
 public class userData {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private int id;
+    @Column(name = "userName")
     private String userName;
+    @Column(name = "firstName")
     private String firstName;
+    @Column(name = "lastName")
     private String lastName;
+    @Column(name = "emailID")
     private String emailID;
+    @Column(name = "mobileNumber")
     private long mobileNumber;
+    @Column(name = "address1")
     private String address1;
+    @Column(name = "address2")
     private String address2;
 
     public userData(int id, String userName, String firstName, String lastName, String emailID, long mobileNumber, String address1, String address2) {
