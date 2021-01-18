@@ -12,6 +12,14 @@ public class userInfoService {
     private userRepository repository;          // injecting repository into userInfoService
 
     public userData saveUserData(userData userdata ) {
-        return repository.save(userdata);
+        return repository.save(userdata);       // save is inbuilt menthod given by jpa repos
     }
+
+    public userData getuserDatabyID(int id){
+        return repository.findById(id).orElse(null);
+    }
+
+    
+
+
 }
