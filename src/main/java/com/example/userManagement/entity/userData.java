@@ -1,6 +1,16 @@
 package com.example.userManagement.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name= "userdata")
+
 public class userData {
+    @Id
+    @GeneratedValue
     private int id;
     private String userName;
     private String firstName;
@@ -20,6 +30,9 @@ public class userData {
         this.address1 = address1;
         this.address2 = address2;
     }
+
+       public userData(){}      // default constructor
+
 
     public int getId() {
         return id;

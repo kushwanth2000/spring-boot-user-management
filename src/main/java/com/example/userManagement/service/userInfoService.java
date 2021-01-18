@@ -15,6 +15,7 @@ public class userInfoService {
         return repository.save(userdata);       // save is inbuilt menthod given by jpa repos
     }
 
+
     public userData getuserDatabyID(int id){
         return repository.findById(id).orElse(null);
     }
