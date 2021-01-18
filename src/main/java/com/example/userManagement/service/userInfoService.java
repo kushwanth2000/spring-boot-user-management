@@ -19,7 +19,10 @@ public class userInfoService {
         return repository.findById(id).orElse(null);
     }
 
-    
+    public String deleteUserbyID(int id){
+        repository.deleteById(id);
+        return "user removed!!";
+    }
 
 
 }
