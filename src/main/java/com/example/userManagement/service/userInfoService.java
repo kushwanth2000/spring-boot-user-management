@@ -28,6 +28,22 @@ public class userInfoService {
     return "user removed!!";
     }
 
+    public userData updateUser(userData userdata)
+    {
+        userData existingUser = repository.findById(userdata.getId()).orElse(null);
+        if (existingUser== null)
+            return null;
+        existingUser.setUserName(userdata.getUserName());
+        existingUser.setFirstName(userdata.getFirstName());
+        existingUser.setLastName(userdata.getLastName());
+        existingUser.setEmailID(userdata.getEmailID());
+        existingUser.setMobileNumber(userdata.getMobileNumber());
+        existingUser.setAddress1(userdata.getAddress1());
+        existingUser.setAddress2(userdata.getAddress2());
+        return repository.save(existingUser);
+    }
+
+
     public List<userData> findByEmailID(String emailid) { return repository.findByEmailID(emailid); }
     public List<userData> findbyUserName(String username) { return repository.findByUserName(username); }
     public List<userData> findbyMobileNumber(long mobilenumber) {return repository.findByMobileNumber(mobilenumber);}
