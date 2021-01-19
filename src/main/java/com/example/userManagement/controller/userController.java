@@ -1,6 +1,5 @@
 package com.example.userManagement.controller;
 
-
 import com.example.userManagement.entity.userData;
 import com.example.userManagement.service.userInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,17 @@ public class userController {
     public String deleteUser(@PathVariable int id)
     {
         return service.deleteUserbyID(id);
+    }
+
+    @PutMapping("updateuser")
+    public String updateUser(@RequestBody userData userdata)
+    {
+        userData existingUser = service.updateUser(userdata);
+        if(existingUser == null)
+        {
+            return "user not existed";
+        }
+        else return "user data updated";
     }
 
 }
