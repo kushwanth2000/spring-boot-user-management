@@ -13,7 +13,7 @@ public class userController {
     private userInfoService service;
 
 
-    @PostMapping("/adduser")
+    @PostMapping("/adduser")          //POST Mapping
     public String addUser(@RequestBody userData userdata)
     {
         List<userData> user_email = service.findByEmailID(userdata.getEmailID());
@@ -29,22 +29,22 @@ public class userController {
     }
 
 
-    @GetMapping("/userbyID/{id}")
+    @GetMapping("/userbyID/{id}")            //GET Mapping
     public userData findUserbyID(@PathVariable int id)
     {
         return service.getuserDatabyID(id);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")              //Delete Mapping
     public String deleteUser(@PathVariable int id)
     {
         return service.deleteUserbyID(id);
     }
 
-    @PutMapping("updateuser")
+    @PutMapping("updateuser")                  //PUT Mapping
     public String updateUser(@RequestBody userData userdata)
     {
-        userData existingUser = service.updateUser(userdata);
+        userData existingUser = service.updateUser(userdata); // Checking for User exist or not
         if(existingUser == null)
         {
             return "user not existed";
