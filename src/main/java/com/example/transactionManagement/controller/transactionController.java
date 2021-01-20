@@ -19,6 +19,8 @@ public class transactionController {
         List<walletUserInfo> senderphoneNumber = transactionservice.findByPhoneNumber(usertransaction.getSenderPhone());
         List<walletUserInfo> receiverphoneNumber = transactionservice.findByPhoneNumber(usertransaction.getReceiverPhone());
 
+        if(senderphoneNumber.get(0).getPhoneNumber()==receiverphoneNumber.get(0).getPhoneNumber())
+        {return "Sender and receiver cannot be same"; }
         int amountTobeTransfered = usertransaction.getAmount();
 
         if (!senderphoneNumber.isEmpty()) {
