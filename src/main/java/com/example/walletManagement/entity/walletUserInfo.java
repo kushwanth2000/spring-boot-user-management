@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class walletUserInfo {
 
     @Id
-    @Column(name = "phoneNumber")
+    @Column(name = "phonenumber")
     private long phoneNumber;
     @Column(name = "balance")
     private int balance;
