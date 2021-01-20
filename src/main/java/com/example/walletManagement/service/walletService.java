@@ -23,6 +23,8 @@ public class walletService {
        return walletrepository.save(walletuserinfo);
     }
 
+
+
     public List<userData> findByMobileNumber(long mobilenumber){return userrepository.findByMobileNumber(mobilenumber);}
     public List<walletUserInfo> findByPhoneNumber(long phoneNumber){return walletrepository.findByPhoneNumber(phoneNumber);}
 }

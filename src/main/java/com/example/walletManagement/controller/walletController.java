@@ -28,7 +28,7 @@ public class walletController {
             {
                 if(walletphoneNumber.isEmpty())
                 { walletserivce.saveWallet(walletuserinfo);  return "Wallet created";}
-                else     return "Wallet already registered ";
+                else     return "Wallet already registered";
             }
             else return "Phone number not registered in userdata";
     }
