@@ -11,15 +11,15 @@ public class userData {
     @GeneratedValue
     @Column(name = "id")
     private int id;
-    @Column(name = "userName")
+    @Column(name = "username")
     private String userName;
-    @Column(name = "firstName")
+    @Column(name = "firstname")
     private String firstName;
-    @Column(name = "lastName")
+    @Column(name = "lastname")
     private String lastName;
-    @Column(name = "emailID")
+    @Column(name = "emailid")
     private String emailID;
-    @Column(name = "mobileNumber")
+    @Column(name = "mobilenumber")
     private long mobileNumber;
     @Column(name = "address1")
     private String address1;
