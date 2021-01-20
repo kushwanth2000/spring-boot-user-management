@@ -21,25 +21,40 @@ public class transactionController {
         List<walletUserInfo> senderphoneNumber = transactionservice.findByPhoneNumber(usertransaction.getSenderPhone());
         List<walletUserInfo> receiverphoneNumber = transactionservice.findByPhoneNumber(usertransaction.getReceiverPhone());
 
-        int senderBal= senderphoneNumber.get(0).getBalance();
-        int amountTobeTransfered=usertransaction.getAmount();
+        int amountTobeTransfered = usertransaction.getAmount();
 
-        if(!senderphoneNumber.isEmpty())
-        {
-            if(!receiverphoneNumber.isEmpty())
-            {
-                if(senderBal >= amountTobeTransfered){
-                    transactionservice.updateUserWallet(senderphoneNumber.get(0),-(usertransaction.getAmount()));
-                    transactionservice.updateUserWallet(receiverphoneNumber.get(0),usertransaction.getAmount());
-                      transactionservice.saveTransactiondata(usertransaction);
-                    return "transaction done successfully";}
-
-                else return "balance is insufficient";
-
+        if (!senderphoneNumber.isEmpty()) {
+            int senderBal = senderphoneNumber.get(0).getBalance();
+            if (!receiverphoneNumber.isEmpty()) {
+                if (senderBal >= amountTobeTransfered) {
+                    transactionservice.updateUserWallet(senderphoneNumber.get(0), -(usertransaction.getAmount()));
+                    transactionservice.updateUserWallet(receiverphoneNumber.get(0), usertransaction.getAmount());
+                    usertransaction.setStatus("Successful");
+                    usertransaction.setRemarks("transaction done successfully");
+                    transactionservice.saveTransactiondata(usertransaction);
+                    return "transaction done successfully";
+                } else {
+                    usertransaction.setStatus("Failed");
+                    usertransaction.setRemarks("balance is insufficient");
+                    transactionservice.saveTransactiondata(usertransaction);
+                    return "balance is insufficient";
+                }
+            } else {
+                usertransaction.setStatus("Failed");
+                usertransaction.setRemarks("received doesn't exits");
+                transactionservice.saveTransactiondata(usertransaction);
+                return "received doesn't exits";
             }
-            else return "received doesn't exits";
         }
-        else return "sender doesn't exists";
-
+        else {
+            usertransaction.setStatus("Failed");
+            usertransaction.setRemarks("sender doesn't exists");
+            transactionservice.saveTransactiondata(usertransaction);
+            return "sender doesn't exists";
+                }
     }
-     }
+
+
+
+
+}
