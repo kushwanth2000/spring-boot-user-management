@@ -5,9 +5,7 @@ import com.example.transactionManagement.entity.transaction;
 import com.example.transactionManagement.service.transactionService;
 import com.example.walletManagement.entity.walletUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -54,7 +52,8 @@ public class transactionController {
                 }
     }
 
-
+    @GetMapping("/transactiondetailsbyid/{id}")
+    public transaction transactionDetailbyid(@PathVariable  int id){return transactionservice.transactiondetailsbyid(id);}
 
 
 }
