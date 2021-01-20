@@ -1,7 +1,10 @@
 package com.example.transactionManagement.entity;
 
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.rmi.server.UID;
 import java.util.UUID;
 
 @Entity
@@ -9,7 +12,7 @@ import java.util.UUID;
 public class transaction {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "uuid1")
     @Column(name = "transactionid")
     private int transactionID;
     @Column(name = "senderphone")
@@ -18,6 +21,10 @@ public class transaction {
     private long receiverPhone;
     @Column(name = "amount")
     private int amount;
+    @Column(name = "status")
+    private String status;
+    @Column(name = "remarks")
+    private String remarks;
 
     public transaction(){}
 
@@ -28,6 +35,10 @@ public class transaction {
     public void setTransactionID(int transactionID) {
         this.transactionID = transactionID;
     }
+
+    public String getStatus() { return status; }
+
+    public void setStatus(String status) { this.status = status;  }
 
     public long getSenderPhone() {
         return senderPhone;
@@ -47,6 +58,14 @@ public class transaction {
 
     public int getAmount() {
         return amount;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public void setAmount(int amount) {
