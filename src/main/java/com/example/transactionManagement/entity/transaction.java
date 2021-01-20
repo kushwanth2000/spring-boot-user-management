@@ -1,18 +1,17 @@
 package com.example.transactionManagement.entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "transaction")
 public class transaction {
 
     @Id
+    @GeneratedValue
     @Column(name = "transactionid")
-    private long transactionID;
+    private int transactionID;
     @Column(name = "senderphone")
     private long senderPhone;
     @Column(name = "receiverphone")
@@ -22,11 +21,11 @@ public class transaction {
 
     public transaction(){}
 
-    public long getTransactionID() {
+    public int getTransactionID() {
         return transactionID;
     }
 
-    public void setTransactionID(long transactionID) {
+    public void setTransactionID(int transactionID) {
         this.transactionID = transactionID;
     }
 
