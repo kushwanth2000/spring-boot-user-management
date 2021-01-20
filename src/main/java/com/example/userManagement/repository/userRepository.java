@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 
-public interface userRepository extends JpaRepository<userData, Integer>   // enitiy name, primary key type
+public interface userRepository extends JpaRepository<userData, Integer>   // enitiy obj name, primary key type
 {
     public List<userData> findByEmailID(String emailID);
     public List<userData> findByUserName(String userName);
