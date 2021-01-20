@@ -29,7 +29,9 @@ public class transactionController {
             if(!receiverphoneNumber.isEmpty())
             {
                 if(senderBal >= amountTobeTransfered){
-                    
+                    transactionservice.updateUserWallet(senderphoneNumber.get(0),-(usertransaction.getAmount()));
+                    transactionservice.updateUserWallet(receiverphoneNumber.get(0),usertransaction.getAmount());
+                      transactionservice.saveTransactiondata(usertransaction);
                     return "transaction done successfully";}
 
                 else return "balance is insufficient";
