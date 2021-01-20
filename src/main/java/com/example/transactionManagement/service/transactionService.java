@@ -26,7 +26,13 @@ public class transactionService {
         return transactionrepository.save(usertransaction);
     }
 
-    
+    public String updateUserWallet(walletUserInfo existingWalletuser,int amount)
+    {
+        int finalAmount=existingWalletuser.getBalance()+amount;
+        existingWalletuser.setBalance(finalAmount);
+        walletrepository.save(existingWalletuser);
+        return "wallet updated";
+    }
 
     public List<walletUserInfo> findByPhoneNumber(long phoneNumber){return walletrepository.findByPhoneNumber(phoneNumber);}
 }
