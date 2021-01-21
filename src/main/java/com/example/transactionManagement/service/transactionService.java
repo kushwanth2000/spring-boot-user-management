@@ -26,7 +26,7 @@ public class transactionService {
         return transactionrepository.save(usertransaction);
     }
 
-    public transaction transactiondetailsbyid(int id){ return transactionrepository.findById(id).orElse(null);}
+    public transaction transactiondetailsbyid(int id){ return transactionrepository.findById(id).get();}
 
     public String updateUserWallet(walletUserInfo existingWalletuser,int amount)
     {

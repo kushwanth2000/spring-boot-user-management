@@ -6,16 +6,20 @@ import com.example.transactionManagement.repository.transactionRepository;
 import com.example.transactionManagement.service.transactionService;
 import com.example.userManagement.entity.userData;
 import com.example.walletManagement.entity.walletUserInfo;
+import org.aspectj.apache.bcel.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -32,14 +36,16 @@ public class transactionController {
         List<walletUserInfo> senderphoneNumber = transactionservice.findByPhoneNumber(usertransaction.getSenderPhone());
         List<walletUserInfo> receiverphoneNumber = transactionservice.findByPhoneNumber(usertransaction.getReceiverPhone());
 
-        // Sender and receiver same phone number validation
-        if(senderphoneNumber.get(0).getPhoneNumber()==receiverphoneNumber.get(0).getPhoneNumber())
-        {return "Sender and receiver cannot be same"; }
         int amountTobeTransfered = usertransaction.getAmount();
 
         if (!senderphoneNumber.isEmpty()) {                 /* sender wallet exists or not validation*/
             int senderBal = senderphoneNumber.get(0).getBalance();       // fetching sender current balance
             if (!receiverphoneNumber.isEmpty()) {             /* receiver wallet exists or not validation*/
+
+                // Sender and receiver same phone number validation
+                if(senderphoneNumber.get(0).getPhoneNumber()==receiverphoneNumber.get(0).getPhoneNumber())
+                {return "Sender and receiver cannot be same"; }
+
                 if (senderBal >= amountTobeTransfered) {
                     transactionservice.updateUserWallet(senderphoneNumber.get(0), -(usertransaction.getAmount()));
                     transactionservice.updateUserWallet(receiverphoneNumber.get(0), usertransaction.getAmount());
@@ -69,46 +75,28 @@ public class transactionController {
     }
 
 
+    // Read Transaction by ID
+
     @GetMapping("/transactiondetailsbyid/{id}")
-    public transaction transactionDetailbyid(@PathVariable  int id)
-    {
-        return transactionservice.transactiondetailsbyid(id);
+    public ResponseEntity<transaction> transactionDetailbyid(@PathVariable  int id) {
+        try {
+            transaction tnx =transactionservice.transactiondetailsbyid(id);
+            return new ResponseEntity<transaction>(tnx,HttpStatus.ACCEPTED);
+        }
+        catch (NoSuchElementException e){
+            return new ResponseEntity<transaction>(HttpStatus.NOT_FOUND);
+        }
     }
 
 
 
 
-//    Page <transaction> allUserTransation( @PathVariable int pageno, @PathVariable int size)
-//    {
-////        List <transaction> transactionsAsSender = transactionservice.findSenderByMobileNumber(userphonenumber);
-////        List <transaction> transactionsAsReceiver =transactionservice.findReceiverByMobileNumber(userphonenumber);
-////        List <transaction> allUserTransations = new ArrayList<transaction>();
-////         allUserTransations.addAll(transactionsAsReceiver);
-////         allUserTransations.addAll(transactionsAsSender);
-//
-//           Model model
-//        int currentPage = pageno
-//        int pageSize = size
-//
-//        Page<transaction> bookPage = transactionservice.findPaginated(PageRequest.of(currentPage - 1, pageSize));
-//
-//        model.addAttribute("bookPage", bookPage);
-//
-//        int totalPages = bookPage.getTotalPages();
-//        if (totalPages > 0) {
-//            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-//                    .boxed()
-//                    .collect(Collectors.toList());
-//            model.addAttribute("pageNumbers", pageNumbers);
-//
-//
-//
-//
-//    }
+
 
        @GetMapping("/transactiondetailsbyuserid/{userphonenumber}/{pageno}/{pagesize}")
        public List<transaction> transactiondetailsbyuserid(@PathVariable long userphonenumber, @PathVariable int pageno , @PathVariable int pagesize)
     {
+
            List<transaction> transactionsAsSender = transactionservice.findSenderByMobileNumber(userphonenumber);
            List<transaction> transactionsAsReceiver = transactionservice.findReceiverByMobileNumber(userphonenumber);
            /*Creating new array list for merging two list  */
@@ -122,6 +110,7 @@ public class transactionController {
                return allUserTransations.subList(pagestartingcount, listsize);
            else
                return allUserTransations.subList(pagestartingcount, pageendingcount);
+
 
     }
 }
