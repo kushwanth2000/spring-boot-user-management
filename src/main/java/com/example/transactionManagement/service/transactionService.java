@@ -21,20 +21,24 @@ public class transactionService {
     @Autowired
     private transactionRepository transactionrepository;
 
+
     public transaction saveTransactiondata(transaction usertransaction)
     {
         return transactionrepository.save(usertransaction);
     }
 
+
     public transaction transactiondetailsbyid(int id){ return transactionrepository.findById(id).get();}
+
 
     public String updateUserWallet(walletUserInfo existingWalletuser,int amount)
     {
         int finalAmount=existingWalletuser.getBalance()+amount;
-        existingWalletuser.setBalance(finalAmount);
+        existingWalletuser.setBalance(finalAmount);                // updating the wallet balance
         walletrepository.save(existingWalletuser);
         return "wallet updated";
     }
+
 
 
     public List<walletUserInfo> findByPhoneNumber(long phoneNumber)

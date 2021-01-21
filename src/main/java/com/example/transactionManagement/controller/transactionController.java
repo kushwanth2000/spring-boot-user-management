@@ -4,24 +4,15 @@ package com.example.transactionManagement.controller;
 import com.example.transactionManagement.entity.transaction;
 import com.example.transactionManagement.repository.transactionRepository;
 import com.example.transactionManagement.service.transactionService;
-import com.example.userManagement.entity.userData;
 import com.example.walletManagement.entity.walletUserInfo;
-import org.aspectj.apache.bcel.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @RestController
 public class transactionController {
@@ -31,8 +22,10 @@ public class transactionController {
     @Autowired
     private transactionRepository repository;
 
+                                        // Post Mapping to wallet to wallet transfer
     @PostMapping("/transaction")
     public String transactiondata(@RequestBody transaction usertransaction) {
+
         List<walletUserInfo> senderphoneNumber = transactionservice.findByPhoneNumber(usertransaction.getSenderPhone());
         List<walletUserInfo> receiverphoneNumber = transactionservice.findByPhoneNumber(usertransaction.getReceiverPhone());
 
@@ -75,8 +68,8 @@ public class transactionController {
     }
 
 
-    // Read Transaction by ID
-
+    // Read Transaction details by ID
+    // added try catch method for non exiting transactions
     @GetMapping("/transactiondetailsbyid/{id}")
     public ResponseEntity<transaction> transactionDetailbyid(@PathVariable  int id) {
         try {
@@ -92,6 +85,7 @@ public class transactionController {
 
 
 
+   // GET mapping  for user transactions
 
        @GetMapping("/transactiondetailsbyuserid/{userphonenumber}/{pageno}/{pagesize}")
        public List<transaction> transactiondetailsbyuserid(@PathVariable long userphonenumber, @PathVariable int pageno , @PathVariable int pagesize)
@@ -111,6 +105,6 @@ public class transactionController {
            else
                return allUserTransations.subList(pagestartingcount, pageendingcount);
 
-
     }
+
 }

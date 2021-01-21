@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface transactionRepository extends JpaRepository <transaction, Integer> {
 
+    /* custom finder */
     public List<transaction> findBysenderPhone(long senderPhone);
     public List<transaction> findByreceiverPhone(long receiverPhone);
 
