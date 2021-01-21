@@ -19,7 +19,7 @@ public class userInfoService {
 
 
     public userData getuserDatabyID(int id){
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).get();
     }
 
 

@@ -1,11 +1,15 @@
 package com.example.userManagement.controller;
 
+import com.example.transactionManagement.entity.transaction;
 import com.example.userManagement.entity.userData;
 import com.example.userManagement.service.userInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 public class userController {
@@ -29,11 +33,19 @@ public class userController {
     }
 
 
+/* added try catch method for non existed user*/
     @GetMapping("/userbyID/{id}")            //GET Mapping
-    public userData findUserbyID(@PathVariable int id)
-    {
-        return service.getuserDatabyID(id);
+    public ResponseEntity<userData> findUserbyID(@PathVariable int id) {
+        try {
+            userData userdata = service.getuserDatabyID(id);
+            return new ResponseEntity<userData>(userdata, HttpStatus.ACCEPTED);
+        } catch (
+                NoSuchElementException e) {
+            return new ResponseEntity<userData>(HttpStatus.NOT_FOUND);
+        }
     }
+
+
 
     @DeleteMapping("/delete/{id}")              //Delete Mapping
     public String deleteUser(@PathVariable int id)
