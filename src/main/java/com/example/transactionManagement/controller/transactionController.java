@@ -87,24 +87,30 @@ public class transactionController {
 
    // GET mapping  for user transactions
 
-       @GetMapping("/transactiondetailsbyuserid/{userphonenumber}/{pageno}/{pagesize}")
-       public List<transaction> transactiondetailsbyuserid(@PathVariable long userphonenumber, @PathVariable int pageno , @PathVariable int pagesize)
+       @GetMapping("/transactiondetailsbyuserid/{userphonenumber}/pageno{pageno}/pagesize{pagesize}")
+       public ResponseEntity<List<transaction>> transactiondetailsbyuserid(@PathVariable long userphonenumber, @PathVariable int pageno , @PathVariable int pagesize)
     {
-
+       try {
            List<transaction> transactionsAsSender = transactionservice.findSenderByMobileNumber(userphonenumber);
            List<transaction> transactionsAsReceiver = transactionservice.findReceiverByMobileNumber(userphonenumber);
            /*Creating new array list for merging two list  */
            List<transaction> allUserTransations = new ArrayList<transaction>();
            allUserTransations.addAll(transactionsAsReceiver);
            allUserTransations.addAll(transactionsAsSender);
-           int listsize = allUserTransations.size();
+           int listsize = allUserTransations.size();                      // total size of the list
            int pageendingcount = ((pageno - 1) * pagesize) + pagesize;     // total count untill ending of pageno
            int pagestartingcount = ((pageno - 1) * pagesize);            // total count untill starting of page
-           if (pageendingcount > listsize)
-               return allUserTransations.subList(pagestartingcount, listsize);
-           else
-               return allUserTransations.subList(pagestartingcount, pageendingcount);
 
+           if(pagestartingcount > listsize)
+               return new ResponseEntity<>(HttpStatus.NOT_FOUND);     // for page no out of bound
+           else if (pageendingcount > listsize)
+               return new ResponseEntity<>(allUserTransations.subList(pagestartingcount, listsize),HttpStatus.ACCEPTED);
+               else
+               return new ResponseEntity<>(allUserTransations.subList(pagestartingcount, pageendingcount),HttpStatus.ACCEPTED);
+       }
+       catch (NoSuchElementException e){
+           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+       }
     }
 
 }
