@@ -33,7 +33,7 @@ public class userInfoService {
         userData existingUser = repository.findById(userdata.getId()).orElse(null);
         if (existingUser== null)
             return null;
-        existingUser.setUserName(userdata.getUserName());
+        existingUser.setUserName(userdata.getUserName());  // overwriting the existing user details
         existingUser.setFirstName(userdata.getFirstName());
         existingUser.setLastName(userdata.getLastName());
         existingUser.setEmailID(userdata.getEmailID());

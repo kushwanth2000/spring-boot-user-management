@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 public class userData {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "userIDGenerator")   // id generator name
     @Column(name = "id")
     private int id;
     @Column(name = "username")

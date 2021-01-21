@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface userRepository extends JpaRepository<userData, Integer>   // enitiy obj name, primary key type
 {
+    /* custom finders*/
     public List<userData> findByEmailID(String emailID);
     public List<userData> findByUserName(String userName);
     public List<userData> findByMobileNumber(long mobileNumber);

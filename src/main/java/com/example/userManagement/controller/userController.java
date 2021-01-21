@@ -1,6 +1,5 @@
 package com.example.userManagement.controller;
 
-import com.example.transactionManagement.entity.transaction;
 import com.example.userManagement.entity.userData;
 import com.example.userManagement.service.userInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
