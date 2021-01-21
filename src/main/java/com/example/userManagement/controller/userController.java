@@ -38,8 +38,7 @@ public class userController {
         try {
             userData userdata = service.getuserDatabyID(id);
             return new ResponseEntity<userData>(userdata, HttpStatus.ACCEPTED);
-        } catch (
-                NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             return new ResponseEntity<userData>(HttpStatus.NOT_FOUND);
         }
     }
@@ -47,9 +46,13 @@ public class userController {
 
 
     @DeleteMapping("/delete/{id}")              //Delete Mapping
-    public String deleteUser(@PathVariable int id)
-    {
-        return service.deleteUserbyID(id);
+    public ResponseEntity<String> deleteUser(@PathVariable int id) {
+        try {
+            userData userData = service.getuserDatabyID(id);
+            return new ResponseEntity(service.deleteUserbyID(id), HttpStatus.ACCEPTED);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("updateuser")                  //PUT Mapping
