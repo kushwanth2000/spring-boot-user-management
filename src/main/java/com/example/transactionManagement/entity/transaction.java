@@ -1,18 +1,14 @@
 package com.example.transactionManagement.entity;
 
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.rmi.server.UID;
-import java.util.UUID;
 
 @Entity
 @Table(name = "transaction")
 public class transaction {
 
     @Id
-    @GeneratedValue(generator = "uuid1")
+    @GeneratedValue(generator = "transIDGenerator")
     @Column(name = "transactionid")
     private int transactionID;
     @Column(name = "senderphone")

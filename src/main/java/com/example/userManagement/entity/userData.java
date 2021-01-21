@@ -1,6 +1,5 @@
 package com.example.userManagement.entity;
 
-import javax.naming.Name;
 import javax.persistence.*;
 
 @Entity
