@@ -36,6 +36,14 @@ public class transactionService {
         return "wallet updated";
     }
 
-    public List<walletUserInfo> findByPhoneNumber(long phoneNumber){return walletrepository.findByPhoneNumber(phoneNumber);}
+
+    public List<walletUserInfo> findByPhoneNumber(long phoneNumber)
+             {return walletrepository.findByPhoneNumber(phoneNumber);}
+    public List<transaction> findSenderByMobileNumber(long senderNumber)
+             {return  transactionrepository.findBysenderPhone(senderNumber);}
+    public List<transaction> findReceiverByMobileNumber(long receiverNumber)
+             {return transactionrepository.findByreceiverPhone(receiverNumber);}
+
+
 }
 
