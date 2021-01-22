@@ -22,9 +22,52 @@ public class transactionService {
     private transactionRepository transactionrepository;
 
 
-    public transaction saveTransactiondata(transaction usertransaction)
+    public String saveTransactiondata(transaction usertransaction)
     {
-        return transactionrepository.save(usertransaction);
+        List<walletUserInfo> senderphoneNumber = walletrepository.findByPhoneNumber(usertransaction.getSenderPhone());
+        List<walletUserInfo> receiverphoneNumber = walletrepository.findByPhoneNumber(usertransaction.getReceiverPhone());
+
+        int amountTobeTransfered = usertransaction.getAmount();
+
+        if (!senderphoneNumber.isEmpty()) {                 /* sender wallet exists or not validation*/
+            int senderBal = senderphoneNumber.get(0).getBalance();       // fetching sender current balance
+            if (!receiverphoneNumber.isEmpty()) {             /* receiver wallet exists or not validation*/
+
+                // Sender and receiver same phone number validation
+                if(senderphoneNumber.get(0).getPhoneNumber()==receiverphoneNumber.get(0).getPhoneNumber())
+                {return "Sender and receiver cannot be same"; }
+
+                if (senderBal >= amountTobeTransfered) {
+                    usertransaction.setStatus("Pending");
+                    usertransaction.setRemarks("transaction Pending");
+                    transactionrepository.save(usertransaction);
+                    updateUserWallet(senderphoneNumber.get(0), -(usertransaction.getAmount()));
+                    //    if(amountTobeTransfered == 100){throw new RuntimeException("manuel run time"); }
+                    updateUserWallet(receiverphoneNumber.get(0), usertransaction.getAmount());
+                    usertransaction.setStatus("Successful");
+                    usertransaction.setRemarks("transaction done successfully");
+                    transactionrepository.save(usertransaction);  // transaction details are saved
+                    return "transaction done successfully";
+                } else {
+                    usertransaction.setStatus("Failed");
+                    usertransaction.setRemarks("balance is insufficient");
+                    transactionrepository.save(usertransaction);
+                    return "balance is insufficient";
+                }
+            } else {
+                usertransaction.setStatus("Failed");
+                usertransaction.setRemarks("receiver wallet doesn't exits");
+                transactionrepository.save(usertransaction);
+                return "receiver wallet doesn't exits";
+            }
+        }
+        else {
+            usertransaction.setStatus("Failed");
+            usertransaction.setRemarks("sender wallet doesn't exists");
+            transactionrepository.save(usertransaction);
+            return "sender wallet doesn't exists";
+        }
+
     }
 
 

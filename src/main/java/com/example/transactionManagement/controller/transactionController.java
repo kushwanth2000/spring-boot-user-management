@@ -25,46 +25,7 @@ public class transactionController {
                                         // Post Mapping to wallet to wallet transfer
     @PostMapping("/transaction")
     public String transactiondata(@RequestBody transaction usertransaction) {
-
-        List<walletUserInfo> senderphoneNumber = transactionservice.findByPhoneNumber(usertransaction.getSenderPhone());
-        List<walletUserInfo> receiverphoneNumber = transactionservice.findByPhoneNumber(usertransaction.getReceiverPhone());
-
-        int amountTobeTransfered = usertransaction.getAmount();
-
-        if (!senderphoneNumber.isEmpty()) {                 /* sender wallet exists or not validation*/
-            int senderBal = senderphoneNumber.get(0).getBalance();       // fetching sender current balance
-            if (!receiverphoneNumber.isEmpty()) {             /* receiver wallet exists or not validation*/
-
-                // Sender and receiver same phone number validation
-                if(senderphoneNumber.get(0).getPhoneNumber()==receiverphoneNumber.get(0).getPhoneNumber())
-                {return "Sender and receiver cannot be same"; }
-
-                if (senderBal >= amountTobeTransfered) {
-                    transactionservice.updateUserWallet(senderphoneNumber.get(0), -(usertransaction.getAmount()));
-                    transactionservice.updateUserWallet(receiverphoneNumber.get(0), usertransaction.getAmount());
-                    usertransaction.setStatus("Successful");
-                    usertransaction.setRemarks("transaction done successfully");
-                    transactionservice.saveTransactiondata(usertransaction);
-                    return "transaction done successfully";
-                } else {
-                    usertransaction.setStatus("Failed");
-                    usertransaction.setRemarks("balance is insufficient");
-                    transactionservice.saveTransactiondata(usertransaction);
-                    return "balance is insufficient";
-                }
-            } else {
-                usertransaction.setStatus("Failed");
-                usertransaction.setRemarks("receiver wallet doesn't exits");
-                transactionservice.saveTransactiondata(usertransaction);
-                return "receiver wallet doesn't exits";
-            }
-        }
-        else {
-            usertransaction.setStatus("Failed");
-            usertransaction.setRemarks("sender wallet doesn't exists");
-            transactionservice.saveTransactiondata(usertransaction);
-            return "sender wallet doesn't exists";
-                }
+        return  transactionservice.saveTransactiondata(usertransaction);
     }
 
 
@@ -102,7 +63,7 @@ public class transactionController {
            int pagestartingcount = ((pageno - 1) * pagesize);            // total count untill starting of page
 
            if(pagestartingcount > listsize)
-               return new ResponseEntity<>(HttpStatus.NOT_FOUND);     // for page no out of bound
+               return new ResponseEntity<>(HttpStatus.NOT_FOUND);     // for pageno out of bound
            else if (pageendingcount > listsize)
                return new ResponseEntity<>(allUserTransations.subList(pagestartingcount, listsize),HttpStatus.ACCEPTED);
                else
