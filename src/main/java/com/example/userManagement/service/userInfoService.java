@@ -43,6 +43,7 @@ public class userInfoService {
         return repository.save(existingUser);
     }
 
+    public List<userData> listAll() { return repository.findAll(); }
 
     public List<userData> findByEmailID(String emailid) { return repository.findByEmailID(emailid); }
     public List<userData> findbyUserName(String username) { return repository.findByUserName(username); }

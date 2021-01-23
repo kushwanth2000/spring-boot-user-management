@@ -10,7 +10,7 @@ public class userData {
     @GeneratedValue(generator = "userIDGenerator")   // id generator name
     @Column(name = "id")
     private int id;
-    @Column(name = "username")
+   @Column(name = "username")
     private String userName;
     @Column(name = "firstname")
     private String firstName;

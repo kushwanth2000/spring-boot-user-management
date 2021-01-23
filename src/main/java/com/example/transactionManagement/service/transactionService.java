@@ -8,8 +8,13 @@ import com.example.userManagement.repository.userRepository;
 import com.example.walletManagement.entity.walletUserInfo;
 import com.example.walletManagement.repository.walletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,7 +26,7 @@ public class transactionService {
     @Autowired
     private transactionRepository transactionrepository;
 
-
+    @Transactional
     public String saveTransactiondata(transaction usertransaction)
     {
         List<walletUserInfo> senderphoneNumber = walletrepository.findByPhoneNumber(usertransaction.getSenderPhone());
@@ -42,7 +47,8 @@ public class transactionService {
                     usertransaction.setRemarks("transaction Pending");
                     transactionrepository.save(usertransaction);
                     updateUserWallet(senderphoneNumber.get(0), -(usertransaction.getAmount()));
-                    //    if(amountTobeTransfered == 100){throw new RuntimeException("manuel run time"); }
+                    // if(amountTobeTransfered == 100){throw new RuntimeException("manuel run time"); }
+                    // checking for runtime expection after amount debited
                     updateUserWallet(receiverphoneNumber.get(0), usertransaction.getAmount());
                     usertransaction.setStatus("Successful");
                     usertransaction.setRemarks("transaction done successfully");
@@ -72,6 +78,27 @@ public class transactionService {
 
 
     public transaction transactiondetailsbyid(int id){ return transactionrepository.findById(id).get();}
+
+
+//    public List<transaction> transactiondetailsbyuserid(long userphonenumber,int pageno , int pagesize)
+//    {
+//        Pageable paging = PageRequest.of(pageno, pagesize);
+//
+//        List<transaction> transactionsAsSender = findSenderByMobileNumber(userphonenumber);
+//           List<transaction> transactionsAsReceiver = findReceiverByMobileNumber(userphonenumber);
+//           /*Creating new array list for merging two list  */
+//           List<transaction> allUserTransations = new ArrayList<transaction>();
+//           allUserTransations.addAll(transactionsAsReceiver);
+//           allUserTransations.addAll(transactionsAsSender);
+//
+//        Page<transaction> pagedResult = transactionrepository.findAll(paging);
+//
+//        if(pagedResult.hasContent()) {
+//            return pagedResult.getContent();
+//        } else {
+//            return new ArrayList<transaction>();
+//        }
+//    }
 
 
     public String updateUserWallet(walletUserInfo existingWalletuser,int amount)
