@@ -32,9 +32,9 @@ class userControllerTest {
 
 
     public List<userData> getTestList() {
-        userData user1 = new userData(1, "user1", "s", "t", "email1",
+        userData user1 = new userData(1, "user1","pass", "s", "t", "email1",
                  9089,"a1", "a2");
-        userData user2 = new userData(2, "user2", "p", "q", "email2",
+        userData user2 = new userData(2, "user2","pass", "p", "q", "email2",
                  90891,"a3", "a4");
         List<userData> userList = new ArrayList<>();
         userList.add(user1);
