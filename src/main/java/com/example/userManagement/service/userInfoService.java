@@ -3,6 +3,7 @@ package com.example.userManagement.service;
 import com.example.userManagement.entity.userData;
 import com.example.userManagement.repository.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +13,10 @@ public class userInfoService {
 
     @Autowired
     private userRepository repository;          // injecting repository into userInfoService
-
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
     public userData saveUserData(userData userdata ) {
+        userdata.setPassword(bcryptEncoder.encode(userdata.getPassword()));
         return repository.save(userdata);       // save is inbuilt method given by jpa repos
     }
 
@@ -34,6 +37,7 @@ public class userInfoService {
         if (existingUser== null)
             return null;
         existingUser.setUserName(userdata.getUserName());  // overwriting the existing user details
+        existingUser.setPassword(bcryptEncoder.encode(userdata.getPassword()));
         existingUser.setFirstName(userdata.getFirstName());
         existingUser.setLastName(userdata.getLastName());
         existingUser.setEmailID(userdata.getEmailID());
