@@ -7,8 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 
+@Document(indexName = "transactiondata" , shards = 1)
 
 public class TransactionElastic {
+    @Id
+    private String transactionID;
     private long senderPhone;
     private long receiverPhone;
     private int amount;
