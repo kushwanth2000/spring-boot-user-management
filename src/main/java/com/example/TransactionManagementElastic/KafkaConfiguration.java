@@ -38,6 +38,25 @@ public class KafkaConfiguration {
 
 
 
+    @Bean            // for consumer DeSerialization
+    public ConsumerFactory<String ,TransactionElastic> consumerFactory(){
+        Map<String, Object> config= new HashMap<>();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"127.0.0.1:9092");
+        config.put(ConsumerConfig.GROUP_ID_CONFIG,"json_group");
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+
+        return new DefaultKafkaConsumerFactory(config,new StringDeserializer(),new
+                JsonDeserializer(TransactionElastic.class));
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String,TransactionElastic> kafkaListenerContainerFactory(){
+
+        ConcurrentKafkaListenerContainerFactory<String,TransactionElastic> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
 
 
 }
