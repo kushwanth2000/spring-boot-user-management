@@ -12,6 +12,8 @@ public class userData {
     private int id;
    @Column(name = "username")
     private String userName;
+   @Column(name = "password")
+    private String password;
     @Column(name = "firstname")
     private String firstName;
     @Column(name = "lastname")
@@ -25,9 +27,10 @@ public class userData {
     @Column(name = "address2")
     private String address2;
 
-    public userData(int id, String userName, String firstName, String lastName, String emailID, long mobileNumber, String address1, String address2) {
+    public userData(int id, String userName, String password, String firstName, String lastName, String emailID, long mobileNumber, String address1, String address2) {
         this.id = id;
         this.userName = userName;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailID = emailID;
@@ -53,6 +56,14 @@ public class userData {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
