@@ -30,7 +30,10 @@ public class TransactionElasticService {
     @Autowired
     private userRepository userrepository;
 
-   
+    @Autowired
+    KafkaTemplate<String, TransactionElastic> kafkatransactionTemplate;
+    private static  final String transactionTopic = "Transaction_Data";
+
 
      // GET mapping for all transactions
     public Iterable<TransactionElastic> allTransactiondata(){
