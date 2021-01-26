@@ -3,14 +3,10 @@ package com.example.transactionManagement.service;
 
 import com.example.transactionManagement.entity.transaction;
 import com.example.transactionManagement.repository.transactionRepository;
-import com.example.userManagement.entity.userData;
 import com.example.userManagement.repository.userRepository;
 import com.example.walletManagement.entity.walletUserInfo;
 import com.example.walletManagement.repository.walletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

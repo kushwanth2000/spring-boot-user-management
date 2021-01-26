@@ -4,15 +4,11 @@ package com.example.transactionManagement.controller;
 import com.example.transactionManagement.entity.transaction;
 import com.example.transactionManagement.repository.transactionRepository;
 import com.example.transactionManagement.service.transactionService;
-import com.example.walletManagement.entity.walletUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -23,11 +19,18 @@ public class transactionController {
     @Autowired
     private transactionRepository repository;
 
-                                        // Post Mapping to wallet to wallet transfer
+
+
+
+    // Post Mapping to wallet to wallet transfer
     @PostMapping("/transaction")
     public String transactiondata(@RequestBody transaction usertransaction) {
-        return  transactionservice.saveTransactiondata(usertransaction);
+
+       return transactionservice.saveTransactiondata(usertransaction);
+
     }
+
+
 
 
     // Read Transaction details by ID
